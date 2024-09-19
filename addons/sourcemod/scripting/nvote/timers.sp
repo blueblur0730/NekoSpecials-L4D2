@@ -1,4 +1,4 @@
-public Action Timer_ReloadMenu(Handle timer, any client)
+Action Timer_ReloadMenu_NekoVote(Handle timer, any client)
 {
 	client = GetClientOfUserId(client);
 	if (IsValidClient(client))
@@ -6,7 +6,7 @@ public Action Timer_ReloadMenu(Handle timer, any client)
 	return Plugin_Continue;
 }
 
-public Action Timer_ReloadAdminMenu(Handle timer, any client)
+Action Timer_ReloadAdminMenu(Handle timer, any client)
 {
 	client = GetClientOfUserId(client);
 	if (IsValidClient(client))
@@ -14,7 +14,7 @@ public Action Timer_ReloadAdminMenu(Handle timer, any client)
 	return Plugin_Continue;
 }
 
-public Action Timer_CheckPlayers(Handle timer, any UserId)
+Action Timer_CheckPlayers(Handle timer, any UserId)
 {
 	if (!RealPlayerExist())
 	{

@@ -1,6 +1,6 @@
 
 
-public Action OnClientSayCommand(int client, const char[] command, const char[] args)
+void NekoVote_OnClientSayCommand(int client, const char[] args)
 {
 	static char voteCommands[][] = { "tgvote", ".tgvote", "!TGVOTE", "TGVOTE", ".TGVOTE" };
 
@@ -12,14 +12,12 @@ public Action OnClientSayCommand(int client, const char[] command, const char[] 
 			break;
 		}
 	}
-
-	return Plugin_Continue;
 }
 
-public Action ChatListener(int client, const char[] command, int args)
+void NekoVote_ChatListener(int client)
 {
 	if (!IsValidClient(client) || IsFakeClient(client) || IsChatTrigger())
-		return Plugin_Continue;
+		return;
 
 	if (BoolWaitForVoteItems[client])
 	{
@@ -27,7 +25,7 @@ public Action ChatListener(int client, const char[] command, int args)
 		{
 			PrintToChat(client, "\x05%s \x04暂时不能开启新的投票", NEKOTAG);
 			cleanplayerwait(client);
-			return Plugin_Continue;
+			return;
 		}
 
 		char msg[128];
@@ -40,7 +38,7 @@ public Action ChatListener(int client, const char[] command, int args)
 			PrintToChat(client, "\x05%s \x04本次操作取消", NEKOTAG);
 			cleanplayerwait(client);
 			cleanplayerchar(client);
-			return Plugin_Continue;
+			return;
 		}
 
 		int	 DDMax, DDMin;
@@ -80,7 +78,7 @@ public Action ChatListener(int client, const char[] command, int args)
 		if (GetCmdArgInt(1) < DDMin || GetCmdArgInt(1) > DDMax)
 		{
 			PrintToChat(client, "\x05%s \x04输入的%s有误，请重试 \x03范围[%d - %d]", NEKOTAG, FChar, DDMin, DDMax);
-			return Plugin_Continue;
+			return;
 		}
 		else
 		{
@@ -91,7 +89,6 @@ public Action ChatListener(int client, const char[] command, int args)
 
 		cleanplayerwait(client);
 
-		return Plugin_Continue;
+		return;
 	}
-	return Plugin_Continue;
 }

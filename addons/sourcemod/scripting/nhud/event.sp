@@ -1,4 +1,4 @@
-public void OnPlayerDisconnect(Event hEvent, const char[] sName, bool bDontBroadcast)
+void Hud_OnPlayerDisconnect(Event hEvent, const char[] sName, bool bDontBroadcast)
 {
 	int client = GetClientOfUserId(hEvent.GetInt( "userid" ));
 	if(!client || (IsClientConnected(client) && !IsClientInGame(client))) return; 
@@ -9,19 +9,19 @@ public void OnPlayerDisconnect(Event hEvent, const char[] sName, bool bDontBroad
 		CreateTimer(0.5, Timer_DelayDeath);
 }
 
-public void OnClientConnected(int client)
+void NekoKillHUD_OnClientConnected(int client)
 {
 	Neko_ClientInfo[client].Reset();
 }
 
-public void OnMapStart()
+void NekoKillHUD_OnMapStart()
 {
 	HudRunning = false;
-	StyleChatDelay = NCvar[CKillHud_StyleChatDelay].IntValue;
+	StyleChatDelay = NCvar_NekoKillHud[CKillHud_StyleChatDelay].IntValue;
 	StartCatchTime();
 }
 
-public void OnConfigsExecuted()
+void NekoKillHUD_OnConfigsExecuted()
 {
 	if(!IsMapTransition)
 		Neko_GlobalState.ResetGO();
@@ -29,12 +29,12 @@ public void OnConfigsExecuted()
 		IsMapTransition = false;
 }
 
-public void OnMapEnd()
+void NekoKillHUD_OnMapEnd()
 {
 	HudRunning = false;
 }
 
-public Action Event_PlayerHurt(Event event, const char[] name, bool dontBroadcast)
+Action Event_PlayerHurt(Event event, const char[] name, bool dontBroadcast)
 {
 	int victim = GetClientOfUserId(GetEventInt(event, "userid"));
 	int attacker = GetClientOfUserId(GetEventInt(event, "attacker"));
@@ -52,20 +52,20 @@ public Action Event_PlayerHurt(Event event, const char[] name, bool dontBroadcas
 	return Plugin_Continue;
 }
 
-public Action Timer_DelayDeath(Handle hTimer)
+Action Timer_DelayDeath(Handle hTimer)
 {
 	if(IsTankLive())
 		TankAlive = true;
 	else
 	{
 		TankAlive = false;
-		if(NCvar[CKillHud_KillTank].BoolValue && NCvar[CKillHud_HudStyle].IntValue > 0)
+		if(NCvar_NekoKillHud[CKillHud_KillTank].BoolValue && NCvar_NekoKillHud[CKillHud_HudStyle].IntValue > 0)
 			CreateTimer(0.1, KillTankHUD);
 	}
 	return Plugin_Continue;
 }
 
-public Action Event_Round_Start(Event event, const char[] name, bool dontBroadcast)
+Action Event_Round_Start(Event event, const char[] name, bool dontBroadcast)
 {
 	HudRunning = false;
 	
@@ -76,16 +76,16 @@ public Action Event_Round_Start(Event event, const char[] name, bool dontBroadca
 	return Plugin_Continue;
 }
 
-public Action RoundStart(Handle Timer)
+static Action RoundStart(Handle Timer)
 {
-	if(NCvar[CKillHud_Show].BoolValue)
-		CreateTimer(1.0, PlayerLeftStart, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
+	if(NCvar_NekoKillHud[CKillHud_Show].BoolValue)
+		CreateTimer(1.0, Timer_PlayerLeftStart, _, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
 	else
 		CreateHud();
 	return Plugin_Continue;
 }
 
-public Action PlayerLeftStart(Handle Timer)
+static Action Timer_PlayerLeftStart(Handle Timer)
 {
 	if(L4D_HasAnySurvivorLeftSafeArea())
 	{
@@ -95,14 +95,14 @@ public Action PlayerLeftStart(Handle Timer)
 	return Plugin_Continue;
 }
 
-public Action Event_Round_End(Event event, const char[] name, bool dontBroadcast)
+Action Event_Round_End(Event event, const char[] name, bool dontBroadcast)
 {
 	HudRunning = false;
 	Kill_Init();
 	return Plugin_Continue;
 }
 
-public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadcast)
+Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadcast)
 {
 	int victim = GetClientOfUserId(event.GetInt( "userid" ));
 	int attacker = GetClientOfUserId(event.GetInt( "attacker"));
@@ -117,7 +117,7 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 	return Plugin_Continue;
 }
 
-public Action Event_infectedDeath(Event event, const char[] name, bool dontBroadcast)
+Action Event_infectedDeath(Event event, const char[] name, bool dontBroadcast)
 {
 	int attacker = GetClientOfUserId(event.GetInt( "attacker"));
 	
@@ -131,7 +131,7 @@ public Action Event_infectedDeath(Event event, const char[] name, bool dontBroad
 	return Plugin_Continue;
 }
 
-public Action Event_MapTransition(Event event, const char[] name, bool dontBroadcast)
+Action Event_MapTransition(Event event, const char[] name, bool dontBroadcast)
 {
 	IsMapTransition = true;
 	return Plugin_Continue;

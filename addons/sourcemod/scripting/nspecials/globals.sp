@@ -1,4 +1,4 @@
-#define PLUGIN_CONFIG							   "Neko_Specials_binhooks"
+#define NEKO_SPECIALS_PLUGIN_CONFIG							   "Neko_Specials_binhooks"
 
 #define CSpecial_Fast_Response					   1
 #define CSpecial_Spawn_Time						   2
@@ -75,9 +75,9 @@
 #define CSpecial_SpawnWay						   73
 #define CSpecial_Attack_PlayerNotInCombat		   74
 #define CSpecial_Attack_PlayerNotInCombat_Time	   75
-#define Cvar_Max								   76
+#define Cvar_Max_NekoSpecials					   76
 
-ConVar NCvar[Cvar_Max];
+ConVar NCvar[Cvar_Max_NekoSpecials];
 
 int	   MENU_TIME = 60;
 
@@ -174,3 +174,173 @@ GlobalForward N_Forward_OnSetSpecialsNum, N_Forward_OnSetSpecialsTime, N_Forward
 float		  CheckBiledTime[MAXPLAYERS + 1], CheckFreeTime[MAXPLAYERS + 1];
 
 int			  CheckNotCombat[MAXPLAYERS + 1];
+
+/**
+ * 
+ * Neko Vote
+ * 
+*/
+
+#if NEKO_VOTE
+
+#define Neko_CanSwitch							   1
+#define Neko_SwitchStatus						   2
+#define Neko_SwitchNumber						   3
+#define Neko_SwitchTime							   4
+#define Neko_SwitchRandom						   5
+#define Neko_SwitchGameMode						   6
+#define Neko_SwitchSpawnMode					   7
+#define Neko_SwitchPlayerJoin					   8
+#define Neko_SwitchTankAlive					   9
+#define Neko_NeedResetNoPlayer					   10
+#define Neko_NeedResetTime						   11
+
+#define Cvar_Max_Neko_Vote					   	   12
+
+ConVar NCvar_Neko_Vote[Cvar_Max_Neko_Vote];
+
+int	   MenuPageItem[MAXPLAYERS + 1], VoteMenuItemValue[MAXPLAYERS + 1], AdminMenuPageItem[MAXPLAYERS + 1];
+
+char   VoteMenuItems[MAXPLAYERS + 1][512], WaitForVoteItems[MAXPLAYERS + 1][512], SubMenuVoteItems[MAXPLAYERS + 1][512];
+
+bool   BoolWaitForVoteItems[MAXPLAYERS + 1];
+
+Menu   N_MenuVoteMenu[MAXPLAYERS + 1], N_MenuAdminMenu[MAXPLAYERS + 1];
+
+#endif
+
+/**
+ * 
+ * Neko HUD
+ * 
+*/
+
+#if NEKO_KILLHUD
+
+#define NEKOHUD_PLUGIN_CONFIG			  "Neko_KillHud_binhooks"
+
+#define CKillHud_FriendlyFire	  1
+#define CKillHud_KillSpecials	  2
+#define CKillHud_KillTank		  3
+#define CKillHud_AllKill		  4
+#define CKillHud_HudStyle		  5
+#define CKillHud_AllowBot		  6
+#define CKillHud_Show			  7
+#define CKillHud_CStyleFriendXY	  8
+#define CKillHud_CStyleSpecialsXY 9
+#define CKillHud_CStyleTankXY	  10
+#define CKillHud_CStyleAllKillXY  11
+#define CKillHud_StyleChatDelay	  12
+#define CKillHud_AllKillStyle2	  13
+#define CKillHud_ShowMorePlayer	  14
+#define CKillHud_ShowTankWitch	  15
+#define Cvar_Max_NekoKillHud	  16
+
+ConVar NCvar_NekoKillHud[Cvar_Max_NekoKillHud];
+
+enum struct ClientState
+{
+	int	 Kill_Infected;
+	int	 Friendly_Fire;
+	int	 Friendly_Hurt;
+	int	 Kill_Zombie;
+	int	 DmgToTank;
+
+	void Reset()
+	{
+		this.Kill_Infected = 0;
+		this.Friendly_Fire = 0;
+		this.Friendly_Hurt = 0;
+		this.Kill_Zombie   = 0;
+		this.DmgToTank	   = 0;
+	}
+}
+
+ClientState Neko_ClientInfo[MAXPLAYERS + 1];
+
+enum struct GlobalState
+{
+	int	 Kill_AllZombie;
+	int	 Kill_AllInfected;
+	int	 Kill_AllZombieGO;
+	int	 Kill_AllInfectedGO;
+
+	int	 Kill_AllTank;
+	int	 Kill_AllWitch;
+	int	 Kill_AllTankGO;
+	int	 Kill_AllWitchGO;
+
+	void Reset()
+	{
+		this.Kill_AllZombie	  = 0;
+		this.Kill_AllInfected = 0; 
+		this.Kill_AllTank	  = 0;
+		this.Kill_AllWitch	  = 0;
+	}
+
+	void ResetGO()
+	{
+		this.Kill_AllZombieGO	= 0;
+		this.Kill_AllInfectedGO = 0;
+		this.Kill_AllTankGO		= 0;
+		this.Kill_AllWitchGO	= 0;
+	}
+}
+
+GlobalState Neko_GlobalState;
+
+bool		TankAlive, HudRunning, IsMapTransition;
+
+int			StyleChatDelay;
+
+char		sPath[PLATFORM_MAX_PATH];
+
+Menu		N_MenuHudMenu[MAXPLAYERS + 1];
+
+#endif
+
+/**
+ * 
+ * Neko Server Name
+ * 
+*/
+#if NEKO_SERVERNAME
+
+#define NEKO_SERVERNAME_PLUGIN_CONFIG		 "Neko_ServerName"
+
+#define SPECIALS_AVAILABLE() (GetFeatureStatus(FeatureType_Native, "NekoSpecials_GetSpecialsNum") == FeatureStatus_Available)
+
+char		  sCorePath[PLATFORM_MAX_PATH], ServerNameFormat[256];
+
+float		  GetMapMaxFlow, CheckGameTime;
+
+int			  RoundFailCounts;
+
+GlobalForward N_Forward_OnChangeServerName;
+
+#define CServerName_AutoUpdate		1
+#define CServerName_UpdateTime		2
+#define CServerName_ShowTimeSeconds 3
+#define Neko_ServerName_Cvar_Max					4
+
+ConVar NCvar_Neko_ServerName[Neko_ServerName_Cvar_Max];
+
+char   CustomText[256];
+#endif
+
+/**
+ * 
+ * Neko Admin Menu
+ * 
+*/
+#if NEKO_ADMINMENU
+
+#define SPECIALS_AVAILABLE_ADMINMENU()   (GetFeatureStatus(FeatureType_Native, "NekoSpecials_GetSpecialsNum") == FeatureStatus_Available)
+#define NKILLHUD_AVAILABLE()   (GetFeatureStatus(FeatureType_Native, "NekoKillHud_GetStatus") == FeatureStatus_Available)
+#define VOTEMENU_AVAILABLE()   (GetFeatureStatus(FeatureType_Native, "NekoVote_VoteStatus") == FeatureStatus_Available)
+#define SERVERNAME_AVAILABLE() (GetFeatureStatus(FeatureType_Native, "NekoServerName_ChangeCustomTest") == FeatureStatus_Available)
+
+TopMenu		  top_menu = null;
+TopMenuObject obj_dmcommands, hud_menu, specials_menu, voteadmin_menu, updateservername_option;
+
+#endif

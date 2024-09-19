@@ -270,7 +270,7 @@ void UpdateConfigFile(bool NeedReset)
 {
 	AutoExecConfig_DeleteConfig();
 
-	for (int i = 1; i < Cvar_Max; i++)
+	for (int i = 1; i < Cvar_Max_NekoSpecials; i++)
 		AutoExecConfig_UpdateToConfig(NCvar[i], NeedReset);
 
 	AutoExecConfig_OnceExec();

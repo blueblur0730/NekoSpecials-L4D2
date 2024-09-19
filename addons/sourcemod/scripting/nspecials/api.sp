@@ -1,9 +1,5 @@
-
-
-public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
+void NekoSpecial_AskPluginLoad2()
 {
-	RegPluginLibrary("nekospecials");
-
 	CreateNative("NekoSpecials_PlHandle", NekoSpecials_REPlHandle);
 	CreateNative("NekoSpecials_GetSpawnMode", NekoSpecials_REGetSpawnMode);
 	CreateNative("NekoSpecials_GetSpecialsNum", NekoSpecials_REGetSpecialsNum);
@@ -19,29 +15,27 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 	N_Forward_OnSetSpecialsNum	= new GlobalForward("NekoSpecials_OnSetSpecialsNum", ET_Event);
 	N_Forward_OnSetSpecialsTime = new GlobalForward("NekoSpecials_OnSetSpecialsTime", ET_Event);
 	N_Forward_OnStartFirstSpawn = new GlobalForward("NekoSpecials_OnStartFirstSpawn", ET_Event);
-
-	return APLRes_Success;
 }
 
-public any NekoSpecials_REReLoadAllConfig(Handle plugin, int numParams)
+any NekoSpecials_REReLoadAllConfig(Handle plugin, int numParams)
 {
 	AutoExecConfig_OnceExec();
 	return 0;
 }
 
-public any NekoSpecials_REShowSpecialsTips(Handle plugin, int numParams)
+any NekoSpecials_REShowSpecialsTips(Handle plugin, int numParams)
 {
 	InfectedTips();
 	return 0;
 }
 
-public any NekoSpecials_REShowSpecialsModeTips(Handle plugin, int numParams)
+any NekoSpecials_REShowSpecialsModeTips(Handle plugin, int numParams)
 {
 	ModeTips();
 	return 0;
 }
 
-public any NekoSpecials_REShowYourTips(Handle plugin, int numParams)
+any NekoSpecials_REShowYourTips(Handle plugin, int numParams)
 {
 	char cshowtips[48];
 	GetNativeString(1, cshowtips, sizeof(cshowtips));
@@ -49,37 +43,37 @@ public any NekoSpecials_REShowYourTips(Handle plugin, int numParams)
 	return 0;
 }
 
-public int NekoSpecials_REGetSpawnMode(Handle plugin, int numParams)
+int NekoSpecials_REGetSpawnMode(Handle plugin, int numParams)
 {
 	return GetSpecialSpawnMode();
 }
 
-public int NekoSpecials_REGetSpecialsMode(Handle plugin, int numParams)
+int NekoSpecials_REGetSpecialsMode(Handle plugin, int numParams)
 {
 	return NCvar[CSpecial_Default_Mode].IntValue;
 }
 
-public int NekoSpecials_REGetPluginStatus(Handle plugin, int numParams)
+int NekoSpecials_REGetPluginStatus(Handle plugin, int numParams)
 {
 	return NCvar[CSpecial_PluginStatus].BoolValue;
 }
 
-public int NekoSpecials_REGetSpecialsNum(Handle plugin, int numParams)
+int NekoSpecials_REGetSpecialsNum(Handle plugin, int numParams)
 {
 	return GetSpecialMax();
 }
 
-public int NekoSpecials_REGetSpecialsTime(Handle plugin, int numParams)
+int NekoSpecials_REGetSpecialsTime(Handle plugin, int numParams)
 {
 	return GetSpecialRespawnInterval();
 }
 
-public any NekoSpecials_REPlHandle(Handle plugin, int numParams)
+any NekoSpecials_REPlHandle(Handle plugin, int numParams)
 {
 	return GetMyHandle();
 }
 
-public any NekoSpecials_REGetConVar(Handle plugin, int numParams)
+any NekoSpecials_REGetConVar(Handle plugin, int numParams)
 {
 	return NCvar[GetNativeCell(1)];
 }

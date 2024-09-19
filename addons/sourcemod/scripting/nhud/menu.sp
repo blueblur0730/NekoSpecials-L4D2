@@ -1,30 +1,30 @@
 
 
-public Action OpenHUDMenu(int client, int args)
+Action OpenHUDMenu(int client, int args)
 {
 	HudMenu(client).Display(client, MENU_TIME);
 	return Plugin_Continue;
 }
 
-public Action ReloadHUDConfig(int client, int args)
+Action ReloadHUDConfig(int client, int args)
 {
 	AutoExecConfig_OnceExec();
 	return Plugin_Continue;
 }
 
-public Action ReSetHUDConfig(int client, int args)
+Action ReSetHUDConfig(int client, int args)
 {
-	UpdateConfigFile(true);
+	UpdateConfigFile_NekoKillHUD(true);
 	return Plugin_Continue;
 }
 
-public Action UpdateHUDConfig(int client, int args)
+Action UpdateHUDConfig(int client, int args)
 {
-	UpdateConfigFile(false);
+	UpdateConfigFile_NekoKillHUD(false);
 	return Plugin_Continue;
 }
 
-public Menu HudMenu(int client)
+Menu HudMenu(int client)
 {
 	N_MenuHudMenu[client] = new Menu(HudMenuHandler);
 	char line[1024];
@@ -32,61 +32,61 @@ public Menu HudMenu(int client)
 	Format(line, sizeof(line), "+|NS|+  HUD菜单\n选择一项更改");
 	N_MenuHudMenu[client].SetTitle(line);
 
-	Format(line, sizeof(line), "插件状态 [%s]", HudStyleName[NCvar[CKillHud_HudStyle].IntValue]);
+	Format(line, sizeof(line), "插件状态 [%s]", HudStyleName[NCvar_NekoKillHud[CKillHud_HudStyle].IntValue]);
 	N_MenuHudMenu[client].AddItem("hudstyle", line);
 
-	if (NCvar[CKillHud_FriendlyFire].BoolValue)
+	if (NCvar_NekoKillHud[CKillHud_FriendlyFire].BoolValue)
 		Format(line, sizeof(line), "友伤统计 [开]");
 	else
 		Format(line, sizeof(line), "友伤统计 [关]");
 	N_MenuHudMenu[client].AddItem("hudfriend", line);
 
-	if (NCvar[CKillHud_AllowBot].BoolValue)
+	if (NCvar_NekoKillHud[CKillHud_AllowBot].BoolValue)
 		Format(line, sizeof(line), "统计人机 [开]");
 	else
 		Format(line, sizeof(line), "统计人机 [关]");
 	N_MenuHudMenu[client].AddItem("hudallowbot", line);
 
-	if (NCvar[CKillHud_KillSpecials].BoolValue)
+	if (NCvar_NekoKillHud[CKillHud_KillSpecials].BoolValue)
 		Format(line, sizeof(line), "击杀统计 [开]");
 	else
 		Format(line, sizeof(line), "击杀统计 [关]");
 	N_MenuHudMenu[client].AddItem("hudsp", line);
 
-	if (NCvar[CKillHud_HudStyle].IntValue == 1 || NCvar[CKillHud_HudStyle].IntValue == 2 || NCvar[CKillHud_HudStyle].IntValue == 3)
+	if (NCvar_NekoKillHud[CKillHud_HudStyle].IntValue == 1 || NCvar_NekoKillHud[CKillHud_HudStyle].IntValue == 2 || NCvar_NekoKillHud[CKillHud_HudStyle].IntValue == 3)
 	{
-		if (NCvar[CKillHud_ShowMorePlayer].BoolValue)
+		if (NCvar_NekoKillHud[CKillHud_ShowMorePlayer].BoolValue)
 			Format(line, sizeof(line), "显示更多玩家 [开]");
 		else
 			Format(line, sizeof(line), "显示更多玩家 [关]");
 		N_MenuHudMenu[client].AddItem("hudmoreplayer", line);
 	}
 
-	if (NCvar[CKillHud_ShowTankWitch].BoolValue)
+	if (NCvar_NekoKillHud[CKillHud_ShowTankWitch].BoolValue)
 		Format(line, sizeof(line), "显示坦克女巫 [开]");
 	else
 		Format(line, sizeof(line), "显示坦克女巫 [关]");
 	N_MenuHudMenu[client].AddItem("hudmorekill", line);
 
-	if (NCvar[CKillHud_KillTank].BoolValue)
+	if (NCvar_NekoKillHud[CKillHud_KillTank].BoolValue)
 		Format(line, sizeof(line), "坦克伤害统计 [开]");
 	else
 		Format(line, sizeof(line), "坦克伤害统计 [关]");
 	N_MenuHudMenu[client].AddItem("hudtank", line);
 
-	if (NCvar[CKillHud_AllKill].BoolValue)
+	if (NCvar_NekoKillHud[CKillHud_AllKill].BoolValue)
 		Format(line, sizeof(line), "其他统计显示 [开]");
 	else
 		Format(line, sizeof(line), "其他统计显示 [关]");
 	N_MenuHudMenu[client].AddItem("hudother", line);
 
-	if (!NCvar[CKillHud_AllKillStyle2].BoolValue)
+	if (!NCvar_NekoKillHud[CKillHud_AllKillStyle2].BoolValue)
 		Format(line, sizeof(line), "击杀总数显示 [章节]");
 	else
 		Format(line, sizeof(line), "击杀总数显示 [更多]");
 	N_MenuHudMenu[client].AddItem("hudotherstyle", line);
 
-	if (!NCvar[CKillHud_Show].BoolValue)
+	if (!NCvar_NekoKillHud[CKillHud_Show].BoolValue)
 		Format(line, sizeof(line), "显示HUD [开局]");
 	else
 		Format(line, sizeof(line), "显示HUD [出安全区]");
@@ -108,7 +108,7 @@ public Menu HudMenu(int client)
 	return N_MenuHudMenu[client];
 }
 
-public int HudMenuHandler(Menu menu, MenuAction action, int client, int selection)
+static int HudMenuHandler(Menu menu, MenuAction action, int client, int selection)
 {
 	switch (action)
 	{
@@ -157,61 +157,61 @@ public int HudMenuHandler(Menu menu, MenuAction action, int client, int selectio
 	return 0;
 }
 
-void SwitchHud(int type, int client)
+static void SwitchHud(int type, int client)
 {
 	switch (type)
 	{
 		case 1:
 		{
-			switch (NCvar[CKillHud_HudStyle].IntValue)
+			switch (NCvar_NekoKillHud[CKillHud_HudStyle].IntValue)
 			{
-				case 1: NCvar[CKillHud_HudStyle].SetInt(2);
-				case 2: NCvar[CKillHud_HudStyle].SetInt(3);
-				case 3: NCvar[CKillHud_HudStyle].SetInt(4);
-				case 4: NCvar[CKillHud_HudStyle].SetInt(0);
-				case 0: NCvar[CKillHud_HudStyle].SetInt(1);
+				case 1: NCvar_NekoKillHud[CKillHud_HudStyle].SetInt(2);
+				case 2: NCvar_NekoKillHud[CKillHud_HudStyle].SetInt(3);
+				case 3: NCvar_NekoKillHud[CKillHud_HudStyle].SetInt(4);
+				case 4: NCvar_NekoKillHud[CKillHud_HudStyle].SetInt(0);
+				case 0: NCvar_NekoKillHud[CKillHud_HudStyle].SetInt(1);
 			}
 		}
 		case 2:
 		{
-			NCvar[CKillHud_FriendlyFire].SetBool(!NCvar[CKillHud_FriendlyFire].BoolValue);
+			NCvar_NekoKillHud[CKillHud_FriendlyFire].SetBool(!NCvar_NekoKillHud[CKillHud_FriendlyFire].BoolValue);
 		}
 		case 3:
 		{
-			NCvar[CKillHud_KillSpecials].SetBool(!NCvar[CKillHud_KillSpecials].BoolValue);
+			NCvar_NekoKillHud[CKillHud_KillSpecials].SetBool(!NCvar_NekoKillHud[CKillHud_KillSpecials].BoolValue);
 		}
 		case 4:
 		{
-			NCvar[CKillHud_KillTank].SetBool(!NCvar[CKillHud_KillTank].BoolValue);
+			NCvar_NekoKillHud[CKillHud_KillTank].SetBool(!NCvar_NekoKillHud[CKillHud_KillTank].BoolValue);
 		}
 		case 5:
 		{
-			NCvar[CKillHud_AllKill].SetBool(!NCvar[CKillHud_AllKill].BoolValue);
+			NCvar_NekoKillHud[CKillHud_AllKill].SetBool(!NCvar_NekoKillHud[CKillHud_AllKill].BoolValue);
 		}
 		case 6:
 		{
-			NCvar[CKillHud_Show].SetBool(!NCvar[CKillHud_Show].BoolValue);
-			if (!NCvar[CKillHud_Show].BoolValue)
+			NCvar_NekoKillHud[CKillHud_Show].SetBool(!NCvar_NekoKillHud[CKillHud_Show].BoolValue);
+			if (!NCvar_NekoKillHud[CKillHud_Show].BoolValue)
 				CreateHud();
 		}
 		case 7:
 		{
-			NCvar[CKillHud_AllowBot].SetBool(!NCvar[CKillHud_AllowBot].BoolValue);
+			NCvar_NekoKillHud[CKillHud_AllowBot].SetBool(!NCvar_NekoKillHud[CKillHud_AllowBot].BoolValue);
 		}
 		case 8: AutoExecConfig_OnceExec();
-		case 9: UpdateConfigFile(false);
-		case 10: UpdateConfigFile(true);
+		case 9: UpdateConfigFile_NekoKillHUD(false);
+		case 10: UpdateConfigFile_NekoKillHUD(true);
 		case 11:
 		{
-			NCvar[CKillHud_AllKillStyle2].SetBool(!NCvar[CKillHud_AllKillStyle2].BoolValue);
+			NCvar_NekoKillHud[CKillHud_AllKillStyle2].SetBool(!NCvar_NekoKillHud[CKillHud_AllKillStyle2].BoolValue);
 		}
 		case 12:
 		{
-			NCvar[CKillHud_ShowMorePlayer].SetBool(!NCvar[CKillHud_ShowMorePlayer].BoolValue);
+			NCvar_NekoKillHud[CKillHud_ShowMorePlayer].SetBool(!NCvar_NekoKillHud[CKillHud_ShowMorePlayer].BoolValue);
 		}
 		case 13:
 		{
-			NCvar[CKillHud_ShowTankWitch].SetBool(!NCvar[CKillHud_ShowTankWitch].BoolValue);
+			NCvar_NekoKillHud[CKillHud_ShowTankWitch].SetBool(!NCvar_NekoKillHud[CKillHud_ShowTankWitch].BoolValue);
 		}
 	}
 
@@ -229,10 +229,10 @@ void SwitchHud(int type, int client)
 		RemoveHUD(HUD_MID_BOX);
 
 
-	CreateTimer(0.2, Timer_ReloadMenu, GetClientUserId(client));
+	CreateTimer(0.2, Timer_ReloadMenu_NekoKillHUd, GetClientUserId(client));
 }
 
-public Action Timer_ReloadMenu(Handle timer, any client)
+Action Timer_ReloadMenu_NekoKillHUd(Handle timer, any client)
 {
 	client = GetClientOfUserId(client);
 	if (IsValidClient(client))

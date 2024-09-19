@@ -1,11 +1,11 @@
 
 
-public Action OnPlayerRunCmd(int client, int& buttons, int& impulse, float vel[3], float angles[3], int& weapon, int& subtype, int& cmdnum, int& tickcount, int& seed, int mouse[2])
+void NekoSpecials_OnPlayerRunCmd(int client, int& buttons, int& impulse, int& weapon, int& subtype, int& cmdnum, int& tickcount, int& seed)
 {
 	if (NCvar[CSpecial_PluginStatus].BoolValue && GetSpecialRunning())
 	{
 		if (!IsPlayerAlive(client) || IsFakeClient(client) || GetClientTeam(client) != 2)
-			return Plugin_Continue;
+			return;
 
 		if (NCvar[CSpecial_Check_IsPlayerBiled].BoolValue)
 		{
@@ -49,10 +49,9 @@ public Action OnPlayerRunCmd(int client, int& buttons, int& impulse, float vel[3
 			}
 		}
 	}
-	return Plugin_Continue;
 }
 
-stock int GetRandomFreeInfected()
+static int GetRandomFreeInfected()
 {
 	ArrayList aClients = new ArrayList();
 

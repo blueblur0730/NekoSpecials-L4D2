@@ -1,6 +1,6 @@
 
 
-public Menu NekoVoteMenu(int client)
+Menu NekoVoteMenu(int client)
 {
 	if (!IsValidClient(client))
 		return null;
@@ -10,49 +10,49 @@ public Menu NekoVoteMenu(int client)
 	char line[2048];
 	int	 itemsflags = ITEMDRAW_DEFAULT;
 
-	if (GCvar[CSpecial_PluginStatus].BoolValue)
+	if (NCvar[CSpecial_PluginStatus].BoolValue)
 		Format(line, sizeof(line), "+|NS|+ 特感玩家菜单\n刷特进程[%s]\n特感数量[%d] 刷特时间[%d]", !GetSpecialRunning() ? "未开始" : "已开始", NekoSpecials_GetSpecialsNum(), NekoSpecials_GetSpecialsTime());
 	else
 		Format(line, sizeof(line), "+|NS|+ 特感玩家菜单\n插件已关闭");
 	N_MenuVoteMenu[client].SetTitle(line);
 
-	if (!NCvar[Neko_CanSwitch].BoolValue)
+	if (!NCvar_Neko_Vote[Neko_CanSwitch].BoolValue)
 		itemsflags = ITEMDRAW_DISABLED;
 
-	Format(line, sizeof(line), "插件目前状态 [%s]", !GCvar[CSpecial_PluginStatus].BoolValue ? "关" : "开");
-	N_MenuVoteMenu[client].AddItem("tgstat", line, !NCvar[Neko_SwitchStatus].BoolValue ? ITEMDRAW_DISABLED : itemsflags);
+	Format(line, sizeof(line), "插件目前状态 [%s]", !NCvar[CSpecial_PluginStatus].BoolValue ? "关" : "开");
+	N_MenuVoteMenu[client].AddItem("tgstat", line, !NCvar_Neko_Vote[Neko_SwitchStatus].BoolValue ? ITEMDRAW_DISABLED : itemsflags);
 
-	if (GCvar[CSpecial_PluginStatus].BoolValue)
+	if (NCvar[CSpecial_PluginStatus].BoolValue)
 	{
-		Format(line, sizeof(line), "全局刷特时间 [%ds]", GCvar[CSpecial_Spawn_Time].IntValue);
-		if (!GCvar[CSpecial_Spawn_Time_DifficultyChange].BoolValue)
-			N_MenuVoteMenu[client].AddItem("tgtime", line, !NCvar[Neko_SwitchTime].BoolValue ? ITEMDRAW_DISABLED : itemsflags);
+		Format(line, sizeof(line), "全局刷特时间 [%ds]", NCvar[CSpecial_Spawn_Time].IntValue);
+		if (!NCvar[CSpecial_Spawn_Time_DifficultyChange].BoolValue)
+			N_MenuVoteMenu[client].AddItem("tgtime", line, !NCvar_Neko_Vote[Neko_SwitchTime].BoolValue ? ITEMDRAW_DISABLED : itemsflags);
 		else
 			N_MenuVoteMenu[client].AddItem("tgtime", line, ITEMDRAW_DISABLED);
 
-		Format(line, sizeof(line), "初始刷特数量 [%d]", GCvar[CSpecial_Num].IntValue);
-		N_MenuVoteMenu[client].AddItem("tgnum", line, !NCvar[Neko_SwitchNumber].BoolValue ? ITEMDRAW_DISABLED : itemsflags);
+		Format(line, sizeof(line), "初始刷特数量 [%d]", NCvar[CSpecial_Num].IntValue);
+		N_MenuVoteMenu[client].AddItem("tgnum", line, !NCvar_Neko_Vote[Neko_SwitchNumber].BoolValue ? ITEMDRAW_DISABLED : itemsflags);
 
-		Format(line, sizeof(line), "进人增加数量 [%d]", GCvar[CSpecial_AddNum].IntValue);
-		N_MenuVoteMenu[client].AddItem("tgadd", line, !NCvar[Neko_SwitchNumber].BoolValue ? ITEMDRAW_DISABLED : itemsflags);
+		Format(line, sizeof(line), "进人增加数量 [%d]", NCvar[CSpecial_AddNum].IntValue);
+		N_MenuVoteMenu[client].AddItem("tgadd", line, !NCvar_Neko_Vote[Neko_SwitchNumber].BoolValue ? ITEMDRAW_DISABLED : itemsflags);
 
-		Format(line, sizeof(line), "初始玩家数量 [%d]", GCvar[CSpecial_PlayerNum].IntValue);
-		N_MenuVoteMenu[client].AddItem("tgpnum", line, !NCvar[Neko_SwitchPlayerJoin].BoolValue ? ITEMDRAW_DISABLED : itemsflags);
+		Format(line, sizeof(line), "初始玩家数量 [%d]", NCvar[CSpecial_PlayerNum].IntValue);
+		N_MenuVoteMenu[client].AddItem("tgpnum", line, !NCvar_Neko_Vote[Neko_SwitchPlayerJoin].BoolValue ? ITEMDRAW_DISABLED : itemsflags);
 
-		Format(line, sizeof(line), "玩家增加数量 [%d]", GCvar[CSpecial_PlayerAdd].IntValue);
-		N_MenuVoteMenu[client].AddItem("tgpadd", line, !NCvar[Neko_SwitchPlayerJoin].BoolValue ? ITEMDRAW_DISABLED : itemsflags);
+		Format(line, sizeof(line), "玩家增加数量 [%d]", NCvar[CSpecial_PlayerAdd].IntValue);
+		N_MenuVoteMenu[client].AddItem("tgpadd", line, !NCvar_Neko_Vote[Neko_SwitchPlayerJoin].BoolValue ? ITEMDRAW_DISABLED : itemsflags);
 
-		Format(line, sizeof(line), "克活着时刷新 [%s]", !GCvar[CSpecial_Spawn_Tank_Alive].BoolValue ? "否" : "是");
-		N_MenuVoteMenu[client].AddItem("tgtanklive", line, !NCvar[Neko_SwitchTankAlive].BoolValue ? ITEMDRAW_DISABLED : itemsflags);
+		Format(line, sizeof(line), "克活着时刷新 [%s]", !NCvar[CSpecial_Spawn_Tank_Alive].BoolValue ? "否" : "是");
+		N_MenuVoteMenu[client].AddItem("tgtanklive", line, !NCvar_Neko_Vote[Neko_SwitchTankAlive].BoolValue ? ITEMDRAW_DISABLED : itemsflags);
 
-		Format(line, sizeof(line), "特感游戏模式 [%s]", SpecialName[GCvar[CSpecial_Default_Mode].IntValue]);
-		N_MenuVoteMenu[client].AddItem("tgmode", line, !NCvar[Neko_SwitchGameMode].BoolValue ? ITEMDRAW_DISABLED : itemsflags);
+		Format(line, sizeof(line), "特感游戏模式 [%s]", SpecialName[NCvar[CSpecial_Default_Mode].IntValue]);
+		N_MenuVoteMenu[client].AddItem("tgmode", line, !NCvar_Neko_Vote[Neko_SwitchGameMode].BoolValue ? ITEMDRAW_DISABLED : itemsflags);
 
 		Format(line, sizeof(line), "特感刷新模式 [%s]", SpawnModeName[GetSpecialSpawnMode()]);
-		N_MenuVoteMenu[client].AddItem("tgspawn", line, !NCvar[Neko_SwitchSpawnMode].BoolValue ? ITEMDRAW_DISABLED : itemsflags);
+		N_MenuVoteMenu[client].AddItem("tgspawn", line, !NCvar_Neko_Vote[Neko_SwitchSpawnMode].BoolValue ? ITEMDRAW_DISABLED : itemsflags);
 
-		Format(line, sizeof(line), "随机特感状态 [%s]", !GCvar[CSpecial_Random_Mode].BoolValue ? "关" : "开");
-		N_MenuVoteMenu[client].AddItem("tgrandom", line, !NCvar[Neko_SwitchRandom].BoolValue ? ITEMDRAW_DISABLED : itemsflags);
+		Format(line, sizeof(line), "随机特感状态 [%s]", !NCvar[CSpecial_Random_Mode].BoolValue ? "关" : "开");
+		N_MenuVoteMenu[client].AddItem("tgrandom", line, !NCvar_Neko_Vote[Neko_SwitchRandom].BoolValue ? ITEMDRAW_DISABLED : itemsflags);
 	}
 
 	N_MenuVoteMenu[client].ExitBackButton = true;
@@ -60,7 +60,7 @@ public Menu NekoVoteMenu(int client)
 	return N_MenuVoteMenu[client];
 }
 
-public int VoteMenuHandler(Menu menu, MenuAction action, int client, int selection)
+static int VoteMenuHandler(Menu menu, MenuAction action, int client, int selection)
 {
 	switch (action)
 	{
@@ -88,12 +88,12 @@ public int VoteMenuHandler(Menu menu, MenuAction action, int client, int selecti
 				}
 				if (StrEqual(items, "tgmode"))
 				{
-					SpecialMenuMode(client);
+					NekoVote_SpecialMenuMode(client);
 					NeedOpenMenu = false;
 				}
 				if (StrEqual(items, "tgspawn"))
 				{
-					SpecialMenuSpawn(client);
+					NekoVote_SpecialMenuSpawn(client);
 					NeedOpenMenu = false;
 				}
 				if (StrEqual(items, "tgtime") || StrEqual(items, "tgnum") || StrEqual(items, "tgadd") || StrEqual(items, "tgpnum") || StrEqual(items, "tgpadd"))
@@ -136,7 +136,7 @@ public int VoteMenuHandler(Menu menu, MenuAction action, int client, int selecti
 					BoolWaitForVoteItems[client] = true;
 				}
 				if (NeedOpenMenu)
-					CreateTimer(0.2, Timer_ReloadMenu, GetClientUserId(client));
+					CreateTimer(0.2, Timer_ReloadMenu_NekoVote, GetClientUserId(client));
 			}
 		}
 		case MenuAction_End:
@@ -150,9 +150,9 @@ public int VoteMenuHandler(Menu menu, MenuAction action, int client, int selecti
 	return 0;
 }
 
-public Action SpecialMenuMode(int client)
+static Action NekoVote_SpecialMenuMode(int client)
 {
-	Menu menu = new Menu(SpecialMenuModeHandler);
+	Menu menu = new Menu(NekoVote_SpecialMenuModeHandler);
 	char line[1024];
 
 	Format(line, sizeof(line), "+|NS|+ 选择特感模式\n选择一个模式");
@@ -178,7 +178,7 @@ public Action SpecialMenuMode(int client)
 	return Plugin_Handled;
 }
 
-public int SpecialMenuModeHandler(Menu menu, MenuAction action, int client, int selection)
+static int NekoVote_SpecialMenuModeHandler(Menu menu, MenuAction action, int client, int selection)
 {
 	switch (action)
 	{
@@ -206,9 +206,9 @@ public int SpecialMenuModeHandler(Menu menu, MenuAction action, int client, int 
 	return 0;
 }
 
-public Action SpecialMenuSpawn(int client)
+static Action NekoVote_SpecialMenuSpawn(int client)
 {
-	Menu menu = new Menu(SpecialMenuSpawnHandler);
+	Menu menu = new Menu(NekoVote_SpecialMenuSpawnHandler);
 	char line[1024];
 
 	Format(line, sizeof(line), "+|NS|+ 选择刷特模式\n选择一个模式");
@@ -230,7 +230,7 @@ public Action SpecialMenuSpawn(int client)
 	return Plugin_Handled;
 }
 
-public int SpecialMenuSpawnHandler(Menu menu, MenuAction action, int client, int selection)
+static int NekoVote_SpecialMenuSpawnHandler(Menu menu, MenuAction action, int client, int selection)
 {
 	switch (action)
 	{

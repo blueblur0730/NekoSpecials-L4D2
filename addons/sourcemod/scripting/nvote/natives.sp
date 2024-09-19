@@ -1,23 +1,23 @@
 
 
-public Action Event_PlayerDisconnect(Event event, const char[] name, bool dontBroadcast)
+Action Event_PlayerDisconnect(Event event, const char[] name, bool dontBroadcast)
 {
 	int client = GetClientOfUserId(event.GetInt("userid"));
 	if (!IsValidClient(client) || IsFakeClient(client))
 		return Plugin_Continue;
 
-	if (!RealPlayerExist(client) && NCvar[Neko_NeedResetNoPlayer].BoolValue)
-		CreateTimer(float(NCvar[Neko_NeedResetTime].IntValue), Timer_CheckPlayers);
+	if (!RealPlayerExist(client) && NCvar_Neko_Vote[Neko_NeedResetNoPlayer].BoolValue)
+		CreateTimer(float(NCvar_Neko_Vote[Neko_NeedResetTime].IntValue), Timer_CheckPlayers);
 
 	return Plugin_Continue;
 }
 
-void UpdateConfigFile(bool NeedReset)
+void NekoVote_UpdateConfigFile(bool NeedReset)
 {
 	AutoExecConfig_DeleteConfig();
 
-	for (int i = 1; i < Cvar_Max; i++)
-		AutoExecConfig_UpdateToConfig(NCvar[i], NeedReset);
+	for (int i = 1; i < Cvar_Max_Neko_Vote; i++)
+		AutoExecConfig_UpdateToConfig(NCvar_Neko_Vote[i], NeedReset);
 
 	AutoExecConfig_OnceExec();
 }

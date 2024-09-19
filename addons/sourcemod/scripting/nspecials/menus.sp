@@ -1,6 +1,6 @@
 
 
-public Menu SpecialMenu(int client)
+Menu SpecialMenu(int client)
 {
 	N_ClientMenu[client].N_MenuSpecialMenu = new Menu(SpecialMenuHandler);
 	char line[2048];
@@ -189,7 +189,7 @@ public Menu SpecialMenu(int client)
 	return N_ClientMenu[client].N_MenuSpecialMenu;
 }
 
-public int SpecialMenuHandler(Menu menu, MenuAction action, int client, int selection)
+static int SpecialMenuHandler(Menu menu, MenuAction action, int client, int selection)
 {
 	switch (action)
 	{
@@ -211,12 +211,12 @@ public int SpecialMenuHandler(Menu menu, MenuAction action, int client, int sele
 					SwitchRandom(client);
 				if (StrEqual(items, "tgmode"))
 				{
-					SpecialMenuMode(client);
+					NekoSpecials_SpecialMenuMode(client);
 					NeedOpenMenu = false;
 				}
 				if (StrEqual(items, "tgspawn"))
 				{
-					SpecialMenuSpawn(client);
+					NekoSpecials_SpecialMenuSpawn(client);
 					NeedOpenMenu = false;
 				}
 				if (StrContains(items, "tgtime", false) != -1)
@@ -375,7 +375,7 @@ public int SpecialMenuHandler(Menu menu, MenuAction action, int client, int sele
 	return 0;
 }
 
-public Action SpecialMenuSubMode(int client)
+static Action SpecialMenuSubMode(int client)
 {
 	Menu menu = new Menu(SpecialMenuSubModeHandler);
 	char line[1024];
@@ -393,7 +393,7 @@ public Action SpecialMenuSubMode(int client)
 	return Plugin_Handled;
 }
 
-public int SpecialMenuSubModeHandler(Menu menu, MenuAction action, int client, int selection)
+static int SpecialMenuSubModeHandler(Menu menu, MenuAction action, int client, int selection)
 {
 	switch (action)
 	{
@@ -428,9 +428,9 @@ public int SpecialMenuSubModeHandler(Menu menu, MenuAction action, int client, i
 	return 0;
 }
 
-public Action SpecialMenuMode(int client)
+static Action NekoSpecials_SpecialMenuMode(int client)
 {
-	Menu menu = new Menu(SpecialMenuModeHandler);
+	Menu menu = new Menu(NekoSpecials_SpecialMenuModeHandler);
 	char line[1024];
 
 	Format(line, sizeof(line), "+|NS|+ 选择特感模式\n选择一个模式");
@@ -456,7 +456,7 @@ public Action SpecialMenuMode(int client)
 	return Plugin_Handled;
 }
 
-public int SpecialMenuModeHandler(Menu menu, MenuAction action, int client, int selection)
+static int NekoSpecials_SpecialMenuModeHandler(Menu menu, MenuAction action, int client, int selection)
 {
 	switch (action)
 	{
@@ -496,9 +496,9 @@ public int SpecialMenuModeHandler(Menu menu, MenuAction action, int client, int 
 	return 0;
 }
 
-public Action SpecialMenuSpawn(int client)
+static Action NekoSpecials_SpecialMenuSpawn(int client)
 {
-	Menu menu = new Menu(SpecialMenuSpawnHandler);
+	Menu menu = new Menu(NekoSpecials_SpecialMenuSpawnHandler);
 	char line[1024];
 
 	Format(line, sizeof(line), "+|NS|+ 选择刷特模式\n选择一个模式");
@@ -520,7 +520,7 @@ public Action SpecialMenuSpawn(int client)
 	return Plugin_Handled;
 }
 
-public int SpecialMenuSpawnHandler(Menu menu, MenuAction action, int client, int selection)
+static int NekoSpecials_SpecialMenuSpawnHandler(Menu menu, MenuAction action, int client, int selection)
 {
 	switch (action)
 	{
@@ -554,7 +554,7 @@ public int SpecialMenuSpawnHandler(Menu menu, MenuAction action, int client, int
 	return 0;
 }
 
-public Menu SpecialMenuCustomSpawnArea(int client)
+Menu SpecialMenuCustomSpawnArea(int client)
 {
 	N_ClientMenu[client].N_SpecialMenuCustomSpawnArea = new Menu(SpecialMenuCustomSpawnAreaHandler);
 	char line[1024];
@@ -579,7 +579,7 @@ public Menu SpecialMenuCustomSpawnArea(int client)
 	return N_ClientMenu[client].N_SpecialMenuCustomSpawnArea;
 }
 
-public int SpecialMenuCustomSpawnAreaHandler(Menu menu, MenuAction action, int client, int selection)
+static int SpecialMenuCustomSpawnAreaHandler(Menu menu, MenuAction action, int client, int selection)
 {
 	switch (action)
 	{
@@ -623,7 +623,7 @@ public int SpecialMenuCustomSpawnAreaHandler(Menu menu, MenuAction action, int c
 	return 0;
 }
 
-public Menu SpecialMenuCustomDirChance(int client)
+Menu SpecialMenuCustomDirChance(int client)
 {
 	N_ClientMenu[client].N_SpecialMenuCustomDirChance = new Menu(SpecialMenuCustomDirChanceHandler);
 	char line[1024];
@@ -648,7 +648,7 @@ public Menu SpecialMenuCustomDirChance(int client)
 	return N_ClientMenu[client].N_SpecialMenuCustomDirChance;
 }
 
-public int SpecialMenuCustomDirChanceHandler(Menu menu, MenuAction action, int client, int selection)
+static int SpecialMenuCustomDirChanceHandler(Menu menu, MenuAction action, int client, int selection)
 {
 	switch (action)
 	{
@@ -686,7 +686,7 @@ public int SpecialMenuCustomDirChanceHandler(Menu menu, MenuAction action, int c
 	return 0;
 }
 
-public Menu SpecialMenuCustomWeight(int client)
+Menu SpecialMenuCustomWeight(int client)
 {
 	N_ClientMenu[client].N_SpecialMenuCustomWeight = new Menu(SpecialMenuCustomWeightHandler);
 	char line[1024];
@@ -711,7 +711,7 @@ public Menu SpecialMenuCustomWeight(int client)
 	return N_ClientMenu[client].N_SpecialMenuCustomWeight;
 }
 
-public int SpecialMenuCustomWeightHandler(Menu menu, MenuAction action, int client, int selection)
+static int SpecialMenuCustomWeightHandler(Menu menu, MenuAction action, int client, int selection)
 {
 	switch (action)
 	{
@@ -749,7 +749,7 @@ public int SpecialMenuCustomWeightHandler(Menu menu, MenuAction action, int clie
 	return 0;
 }
 
-public Menu SpecialMenuCustom(int client)
+Menu SpecialMenuCustom(int client)
 {
 	N_ClientMenu[client].N_SpecialMenuCustom = new Menu(SpecialMenuCustomHandler);
 	char line[1024];
@@ -776,7 +776,7 @@ public Menu SpecialMenuCustom(int client)
 	return N_ClientMenu[client].N_SpecialMenuCustom;
 }
 
-public int SpecialMenuCustomHandler(Menu menu, MenuAction action, int client, int selection)
+static int SpecialMenuCustomHandler(Menu menu, MenuAction action, int client, int selection)
 {
 	switch (action)
 	{
@@ -814,7 +814,7 @@ public int SpecialMenuCustomHandler(Menu menu, MenuAction action, int client, in
 	return 0;
 }
 
-public Menu SpecialMenuCustomMaxDis(int client)
+Menu SpecialMenuCustomMaxDis(int client)
 {
 	N_ClientMenu[client].N_SpecialMenuCustomMaxDis = new Menu(SpecialMenuCustomMaxDisHandler);
 	char line[1024];
@@ -839,7 +839,7 @@ public Menu SpecialMenuCustomMaxDis(int client)
 	return N_ClientMenu[client].N_SpecialMenuCustomMaxDis;
 }
 
-public int SpecialMenuCustomMaxDisHandler(Menu menu, MenuAction action, int client, int selection)
+static int SpecialMenuCustomMaxDisHandler(Menu menu, MenuAction action, int client, int selection)
 {
 	switch (action)
 	{
@@ -877,7 +877,7 @@ public int SpecialMenuCustomMaxDisHandler(Menu menu, MenuAction action, int clie
 	return 0;
 }
 
-public Menu SpecialMenuCustomMinDis(int client)
+Menu SpecialMenuCustomMinDis(int client)
 {
 	N_ClientMenu[client].N_SpecialMenuCustomMinDis = new Menu(SpecialMenuCustomMinDisHandler);
 	char line[1024];
@@ -902,7 +902,7 @@ public Menu SpecialMenuCustomMinDis(int client)
 	return N_ClientMenu[client].N_SpecialMenuCustomMinDis;
 }
 
-public int SpecialMenuCustomMinDisHandler(Menu menu, MenuAction action, int client, int selection)
+static int SpecialMenuCustomMinDisHandler(Menu menu, MenuAction action, int client, int selection)
 {
 	switch (action)
 	{

@@ -1,29 +1,29 @@
-public Action OpenSpecialMenu(int client, int args)
+Action OpenSpecialMenu(int client, int args)
 {
 	SpecialMenu(client).Display(client, MENU_TIME);
 	return Plugin_Continue;
 }
 
-public Action ReloadNTGConfig(int client, int args)
+Action ReloadNTGConfig(int client, int args)
 {
 	AutoExecConfig_OnceExec();
 	SetMaxSpecialsCount();
 	return Plugin_Continue;
 }
 
-public Action ReSetNTGConfig(int client, int args)
+Action ReSetNTGConfig(int client, int args)
 {
 	UpdateConfigFile(true);
 	return Plugin_Continue;
 }
 
-public Action UpdateNTGConfig(int client, int args)
+Action UpdateNTGConfig(int client, int args)
 {
 	UpdateConfigFile(false);
 	return Plugin_Continue;
 }
 
-public Action SpecialVersionCMD(int client, int args)
+Action SpecialVersionCMD(int client, int args)
 {
 	if(!IsClientBot(client))
 	{

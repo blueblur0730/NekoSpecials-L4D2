@@ -1,9 +1,9 @@
 
 
-public Action ChatListener(int client, const char[] command, int args)
+void NekoSpecials_ChatListener(int client)
 {
 	if (!IsValidClient(client) || IsFakeClient(client) || IsChatTrigger())
-		return Plugin_Continue;
+		return;
 
 	if (N_ClientItem[client].InWait())
 	{
@@ -16,7 +16,7 @@ public Action ChatListener(int client, const char[] command, int args)
 		{
 			PrintToChat(client, "\x05%s \x04本次操作取消", NEKOTAG);
 			N_ClientItem[client].Reset();
-			return Plugin_Continue;
+			return;
 		}
 
 		if (N_ClientItem[client].WaitingForTgtime)
@@ -24,7 +24,7 @@ public Action ChatListener(int client, const char[] command, int args)
 			if (GetCmdArgInt(1) < 0 || GetCmdArgInt(1) > 180)
 			{
 				PrintToChat(client, "\x05%s \x04输入的时间有误，请重试 \x03范围[3 - 180]", NEKOTAG);
-				return Plugin_Continue;
+				return;
 			}
 			else
 			{
@@ -47,7 +47,7 @@ public Action ChatListener(int client, const char[] command, int args)
 			if (GetCmdArgInt(1) < 1 || GetCmdArgInt(1) > 32)
 			{
 				PrintToChat(client, "\x05%s \x04输入的数量有误，请重试 \x03范围[1 - 32]", NEKOTAG);
-				return Plugin_Continue;
+				return;
 			}
 			else
 			{
@@ -65,7 +65,7 @@ public Action ChatListener(int client, const char[] command, int args)
 			if (GetCmdArgInt(1) < 0 || GetCmdArgInt(1) > 8)
 			{
 				PrintToChat(client, "\x05%s \x04输入的数量有误，请重试 \x03范围[0 - 8]", NEKOTAG);
-				return Plugin_Continue;
+				return;
 			}
 			else
 			{
@@ -78,7 +78,7 @@ public Action ChatListener(int client, const char[] command, int args)
 			if (GetCmdArgInt(1) < 1 || GetCmdArgInt(1) > 32)
 			{
 				PrintToChat(client, "\x05%s \x04输入的数量有误，请重试 \x03范围[1 - 8]", NEKOTAG);
-				return Plugin_Continue;
+				return;
 			}
 			else
 			{
@@ -91,7 +91,7 @@ public Action ChatListener(int client, const char[] command, int args)
 			if (GetCmdArgInt(1) < 1 || GetCmdArgInt(1) > 8)
 			{
 				PrintToChat(client, "\x05%s \x04输入的数量有误，请重试 \x03范围[1 - 8]", NEKOTAG);
-				return Plugin_Continue;
+				return;
 			}
 			else
 			{
@@ -104,7 +104,7 @@ public Action ChatListener(int client, const char[] command, int args)
 			if (GetCmdArgInt(1) < 0 || GetCmdArgInt(1) > 32)
 			{
 				PrintToChat(client, "\x05%s \x04输入的数量有误，请重试 \x03范围[0 - 32]", NEKOTAG);
-				return Plugin_Continue;
+				return;
 			}
 			else
 			{
@@ -135,7 +135,7 @@ public Action ChatListener(int client, const char[] command, int args)
 			if (GetCmdArgInt(1) < 1 || GetCmdArgInt(1) > 100)
 			{
 				PrintToChat(client, "\x05%s \x04输入的概率有误，请重试 \x03范围[1 - 100]", NEKOTAG);
-				return Plugin_Continue;
+				return;
 			}
 			else
 			{
@@ -157,7 +157,7 @@ public Action ChatListener(int client, const char[] command, int args)
 			if (GetCmdArgInt(1) < 1 || GetCmdArgInt(1) > 100)
 			{
 				PrintToChat(client, "\x05%s \x04输入的概率有误，请重试 \x03范围[1 - 100]", NEKOTAG);
-				return Plugin_Continue;
+				return;
 			}
 			else
 			{
@@ -178,7 +178,7 @@ public Action ChatListener(int client, const char[] command, int args)
 			if (GetCmdArgInt(1) < 1)
 			{
 				PrintToChat(client, "\x05%s \x04输入的数值有误，请重试 \x03范围[不能小于1，不要小于最小距离]", NEKOTAG);
-				return Plugin_Continue;
+				return;
 			}
 			else
 			{
@@ -199,7 +199,7 @@ public Action ChatListener(int client, const char[] command, int args)
 			if (GetCmdArgInt(1) < 1)
 			{
 				PrintToChat(client, "\x05%s \x04输入的数值有误，请重试 \x03范围[不能小于1，不要超过最大距离]", NEKOTAG);
-				return Plugin_Continue;
+				return;
 			}
 			else
 			{
@@ -220,7 +220,7 @@ public Action ChatListener(int client, const char[] command, int args)
 			if (GetCmdArgInt(1) < 1)
 			{
 				PrintToChat(client, "\x05%s \x04输入的数值有误，请重试 \x03范围[不能小于1，不要小于最小距离]", NEKOTAG);
-				return Plugin_Continue;
+				return;
 			}
 			else
 			{
@@ -233,7 +233,7 @@ public Action ChatListener(int client, const char[] command, int args)
 			if (GetCmdArgInt(1) < 1)
 			{
 				PrintToChat(client, "\x05%s \x04输入的数值有误，请重试 \x03范围[不能小于1，不要超过最大距离]", NEKOTAG);
-				return Plugin_Continue;
+				return;
 			}
 			else
 			{
@@ -246,7 +246,7 @@ public Action ChatListener(int client, const char[] command, int args)
 			if (GetCmdArgFloat(1) < 100.0 || GetCmdArgFloat(1) > 10000.0)
 			{
 				PrintToChat(client, "\x05%s \x04输入的数值有误，请重试 \x03范围[100.0 至 10000.0]", NEKOTAG);
-				return Plugin_Continue;
+				return;
 			}
 			else
 			{
@@ -259,7 +259,7 @@ public Action ChatListener(int client, const char[] command, int args)
 			if (GetCmdArgFloat(1) < 100.0 || GetCmdArgFloat(1) > 10000.0)
 			{
 				PrintToChat(client, "\x05%s \x04输入的数值有误，请重试 \x03范围[100.0 至 10000.0]", NEKOTAG);
-				return Plugin_Continue;
+				return;
 			}
 			else
 			{
@@ -272,7 +272,7 @@ public Action ChatListener(int client, const char[] command, int args)
 			if (GetCmdArgFloat(1) < 0.1 || GetCmdArgFloat(1) > 2.0)
 			{
 				PrintToChat(client, "\x05%s \x04输入的数值有误，请重试 \x03范围[0.1 至 2.0]", NEKOTAG);
-				return Plugin_Continue;
+				return;
 			}
 			else
 			{
@@ -285,7 +285,7 @@ public Action ChatListener(int client, const char[] command, int args)
 			if (GetCmdArgInt(1) < 3 || GetCmdArgInt(1) > 15)
 			{
 				PrintToChat(client, "\x05%s \x04输入的数值有误，请重试 \x03范围[3 至 15]", NEKOTAG);
-				return Plugin_Continue;
+				return;
 			}
 			else
 			{
@@ -310,7 +310,6 @@ public Action ChatListener(int client, const char[] command, int args)
 		else
 			SpecialMenu(client).DisplayAt(client, N_ClientMenu[client].MenuPageItem, MENU_TIME);
 
-		return Plugin_Continue;
+		return;
 	}
-	return Plugin_Continue;
 }
